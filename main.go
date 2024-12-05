@@ -31,6 +31,12 @@ func main() {
 	case "3b":
 		sol = &solutions.Day03a{Conditionals: true}
 		fileName = "./data/day03.txt"
+	case "4":
+		sol = &solutions.Day04a{}
+		fileName = "./data/day04.txt"
+	case "4b":
+		sol = &solutions.Day04b{}
+		fileName = "./data/day04.txt"
 	}
 
 	shared.ReadWholeFile(fileName, sol)
