@@ -43,6 +43,15 @@ func main() {
 	case "5b":
 		sol = &solutions.Day05a{ProcessingUpdates: false, Fix: true}
 		fileName = "./data/day05.txt"
+	case "6":
+		sol = &solutions.Day06a{}
+		fileName = "./data/day06.txt"
+	case "6b":
+		sol = &solutions.Day06a{GetLoops: true}
+		fileName = "./data/day06.txt"
+	case "t":
+		sol = &solutions.Day06a{GetLoops: true}
+		fileName = "./data/test.txt"
 	}
 
 	shared.ReadWholeFile(fileName, sol)
