@@ -49,8 +49,14 @@ func main() {
 	case "6b":
 		sol = &solutions.Day06a{GetLoops: true}
 		fileName = "./data/day06.txt"
+	case "7":
+		sol = &solutions.Day07a{}
+		fileName = "./data/day07.txt"
+	case "7b":
+		sol = &solutions.Day07a{ AddCats: true }
+		fileName = "./data/day07.txt"
 	case "t":
-		sol = &solutions.Day06a{GetLoops: true}
+		sol = &solutions.Day07a{}
 		fileName = "./data/test.txt"
 	}
 
