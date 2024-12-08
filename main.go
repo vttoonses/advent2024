@@ -53,10 +53,16 @@ func main() {
 		sol = &solutions.Day07a{}
 		fileName = "./data/day07.txt"
 	case "7b":
-		sol = &solutions.Day07a{ AddCats: true }
+		sol = &solutions.Day07a{AddCats: true}
 		fileName = "./data/day07.txt"
+	case "8":
+		sol = &solutions.Day08a{}
+		fileName = "./data/day08.txt"
+	case "8b":
+		sol = &solutions.Day08a{Harmonics: true}
+		fileName = "./data/day08.txt"
 	case "t":
-		sol = &solutions.Day07a{}
+		sol = &solutions.Day08a{Harmonics: true}
 		fileName = "./data/test.txt"
 	}
 
