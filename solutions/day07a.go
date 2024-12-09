@@ -1,8 +1,12 @@
 package solutions
 
+// % go run main.go 7
+// 8401132154762 <nil>
+// % go run main.go 7b
+// 95297119227552 <nil>
+
 import (
 	"fmt"
-	"slices"
 	"strconv"
 	"strings"
 )
@@ -14,7 +18,7 @@ type Day07a struct {
 }
 
 type EquationPart struct {
-	operand int
+	running int
 	add     *EquationPart
 	mult    *EquationPart
 	cat     *EquationPart
@@ -61,65 +65,44 @@ func isValid(target int, operands []int, addCats bool) bool {
 	if len(operands) == 0 {
 		return false
 	}
-	equations.operand = operands[0]
-	buildTree(&equations, operands[1:], addCats)
-	totals := []int{}
-
-	evalEquations(equations.operand, "+", equations.add, &totals, addCats)
-	evalEquations(equations.operand, "*", equations.mult, &totals, addCats)
-	if addCats {
-		evalEquations(equations.operand, "||", equations.cat, &totals, addCats)
-	}
-
-	return slices.Contains(totals, target)
+	equations.running = operands[0]
+	return buildTree(&equations, operands[1:], addCats, target)
 }
 
-func buildTree(equation *EquationPart, operands []int, addCats bool) {
+func buildTree(equation *EquationPart, operands []int, addCats bool, target int) bool {
 	if len(operands) == 0 {
-		return
+		return equation.running == target
 	}
 
+	nextOp := operands[0]
+
 	equation.add = &EquationPart{
-		operand: operands[0],
+		running: equation.running + nextOp,
 	}
 
 	equation.mult = &EquationPart{
-		operand: operands[0],
+		running: equation.running * nextOp,
 	}
 
 	if addCats {
+		catNextStr := fmt.Sprintf("%d%d", equation.running, nextOp)
+		catNext, _ := strconv.Atoi(catNextStr)
 		equation.cat = &EquationPart{
-			operand: operands[0],
+			running: catNext,
 		}
 	}
 
-	if len(operands) > 1 {
-		buildTree(equation.add, operands[1:], addCats)
-		buildTree(equation.mult, operands[1:], addCats)
-		if addCats {
-			buildTree(equation.cat, operands[1:], addCats)
-		}
-	}
-}
-
-func evalEquations(current int, operator string, equation *EquationPart, totals *[]int, addCats bool) {
-	if operator == "+" {
-		current += equation.operand
-	} else if operator == "*" {
-		current *= equation.operand
-	} else if addCats {
-		tmp := fmt.Sprintf("%d%d", current, equation.operand)
-		current, _ = strconv.Atoi(tmp)
+	if buildTree(equation.add, operands[1:], addCats, target) {
+		return true
 	}
 
-	if equation.add == nil {
-		*totals = append(*totals, current)
-		return
+	if buildTree(equation.mult, operands[1:], addCats, target) {
+		return true
 	}
 
-	evalEquations(current, "+", equation.add, totals, addCats)
-	evalEquations(current, "*", equation.mult, totals, addCats)
-	if addCats {
-		evalEquations(current, "||", equation.cat, totals, addCats)
+	if addCats && buildTree(equation.cat, operands[1:], addCats, target) {
+		return true
 	}
+
+	return false
 }
