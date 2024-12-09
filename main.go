@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/aoc2024/shared"
 	"github.com/aoc2024/solutions"
@@ -11,6 +12,8 @@ import (
 func main() {
 	var sol solutions.Solution
 	var fileName string
+
+	startTime := time.Now()
 
 	switch os.Args[1] {
 	case "1":
@@ -69,4 +72,8 @@ func main() {
 	shared.ReadWholeFile(fileName, sol)
 
 	fmt.Println(sol.Solve())
+	endTime := time.Now()
+	diff := endTime.Sub(startTime).Milliseconds()
+
+	fmt.Printf("Time difference: %d milliseconds\n", diff)
 }
