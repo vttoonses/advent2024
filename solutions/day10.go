@@ -7,9 +7,11 @@ import (
 type Day10 struct {
 	trailHeads []Position
 	scores     []int
+	ratings    []int
 	topo       [][]int
 	width      int
 	height     int
+	GetRatings bool
 }
 
 func (data *Day10) ParseDataLine(dataLine string) error {
@@ -38,21 +40,32 @@ func (data *Day10) ProcessDataLine() error {
 func (data *Day10) ProcessDataSet() error {
 	for _, th := range data.trailHeads {
 		summits := []Position{}
-		score := data.getScore(th, 0, &summits, th)
-		data.scores = append(data.scores, score)
+		rating := 0
+		score := data.getScore(th, 0, &summits, th, &rating)
+		if data.GetRatings {
+			data.ratings = append(data.ratings, rating)
+		} else {
+			data.scores = append(data.scores, score)
+		}
 	}
 	return nil
 }
 
 func (data *Day10) Solve() (int, error) {
 	total := 0
-	for _, score := range data.scores {
-		total += score
+	if data.GetRatings {
+		for _, rating := range data.ratings {
+			total += rating
+		}
+	} else {
+		for _, score := range data.scores {
+			total += score
+		}
 	}
 	return total, nil
 }
 
-func (data *Day10) getScore(current Position, targetElevation int, summits *[]Position, previous Position) int {
+func (data *Day10) getScore(current Position, targetElevation int, summits *[]Position, previous Position, rating *int) int {
 	if current == previous && targetElevation != 0 {
 		return 0
 	}
@@ -63,6 +76,7 @@ func (data *Day10) getScore(current Position, targetElevation int, summits *[]Po
 
 	if data.topo[current.y][current.x] == targetElevation {
 		if targetElevation == 9 {
+			*rating = *rating + 1
 			if !slices.Contains(*summits, current) {
 				*summits = append(*summits, current)
 				return 1
@@ -72,10 +86,10 @@ func (data *Day10) getScore(current Position, targetElevation int, summits *[]Po
 
 		scores := 0
 		nextElevation := targetElevation + 1
-		scores += data.getScore(Position{x: current.x, y: current.y - 1}, nextElevation, summits, current)
-		scores += data.getScore(Position{x: current.x + 1, y: current.y}, nextElevation, summits, current)
-		scores += data.getScore(Position{x: current.x, y: current.y + 1}, nextElevation, summits, current)
-		scores += data.getScore(Position{x: current.x - 1, y: current.y}, nextElevation, summits, current)
+		scores += data.getScore(Position{x: current.x, y: current.y - 1}, nextElevation, summits, current, rating)
+		scores += data.getScore(Position{x: current.x + 1, y: current.y}, nextElevation, summits, current, rating)
+		scores += data.getScore(Position{x: current.x, y: current.y + 1}, nextElevation, summits, current, rating)
+		scores += data.getScore(Position{x: current.x - 1, y: current.y}, nextElevation, summits, current, rating)
 		return scores
 	}
 
