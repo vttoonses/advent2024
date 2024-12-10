@@ -64,8 +64,14 @@ func main() {
 	case "8b":
 		sol = &solutions.Day08a{Harmonics: true}
 		fileName = "./data/day08.txt"
+	case "9":
+		sol = &solutions.Day09a{}
+		fileName = "./data/day09.txt"
+	case "9b":
+		sol = &solutions.Day09a{ByFile: true}
+		fileName = "./data/day09.txt"
 	case "t":
-		sol = &solutions.Day08a{Harmonics: true}
+		sol = &solutions.Day09a{ByFile: true}
 		fileName = "./data/test.txt"
 	}
 
