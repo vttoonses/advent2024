@@ -76,8 +76,14 @@ func main() {
 	case "10b":
 		sol = &solutions.Day10{GetRatings: true}
 		fileName = "./data/day10.txt"
+	case "11":
+		sol = &solutions.Day11{Blinks: 25}
+		fileName = "./data/day11.txt"
+	case "11b":
+		sol = &solutions.Day11{Blinks: 75}
+		fileName = "./data/day11.txt"
 	case "t":
-		sol = &solutions.Day10{GetRatings: true}
+		sol = &solutions.Day11{Blinks: 25}
 		fileName = "./data/test.txt"
 	}
 
