@@ -94,8 +94,14 @@ func main() {
 	case "13b":
 		sol = &solutions.Day13{TenQ: true}
 		fileName = "./data/day13.txt"
+	case "14":
+		sol = &solutions.Day14{Width: 101, Height: 103, Seconds: 100}
+		fileName = "./data/day14.txt"
+	case "14b":
+		sol = &solutions.Day14{Width: 101, Height: 103, Seconds: 100, Tree: true}
+		fileName = "./data/day14.txt"
 	case "t":
-		sol = &solutions.Day13{TenQ: true}
+		sol = &solutions.Day14{Width: 11, Height: 7, Seconds: 100}
 		fileName = "./data/test.txt"
 	}
 
